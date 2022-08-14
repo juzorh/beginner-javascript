@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Traffic Light</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        #light-con{
+            width:100px;
+            height:250px;
+            background-color: black;
+            margin:0 auto;
+            padding:1em;
+            border-radius:30px;
+        }
+        #stand{
+            background-color: rgb(58, 55, 55);
+            width:50px;
+            height:350px;
+            position:relative;
+            left:28px;
+        }
+        .light{
+            background-color: rgb(216, 207, 207);
+            width:70px;
+            height:70px;
+            margin-bottom:1em;
+            position:relative;
+            left:15px;
+            border-radius: 50%;
+        }
+        .count{
+            color:#ffffff;
+            position:relative;
+            font-size: 150%;
+            left:23px;
+            top:23px;
+            margin:0;
+            padding:0;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="light-con">
+        <div id="red" class="light">
+            <p class="count" id="r-c"></p>
+        </div>
+
+        <div id="yellow" class="light">
+            <p class="count" id="y-c"></p>
+        </div>
+
+        <div id="green" class="light">
+            <p class="count" id="g-c"></p>
+        </div>
+
+        <div id="stand">
+
+        </div>
+    </div>
+
+    <script>
+        var $ = function(id){
+            return document.getElementById(id);
+        };
+        
+        var contain = document.getElementById("light-con");
+        var light = contain.getElementsByClassName("light");
+        var gWatch, yWatch, rWatch;
+
+        var count = 9;
+        var gCount = function(){
+            $("g-c").innerHTML = "0" + count;
+            count--;
+
+            if(count < 0){
+                clearInterval(gWatch);
+
+                var pause = setTimeout(function(){
+                    $("y-c").style.display = "block";
+                    $("y-c").innerHTML = "05";
+                    yellow();
+                },1000)
+            }
+        };
+        
+        var green = function(){
+            light[2].setAttribute("style","background-color:green");
+
+            gWatch = setInterval(gCount ,1000);
+
+            var pause = setTimeout(function(){
+                light[2].removeAttribute("style");
+                $("g-c").style.display = "none";
+                yCount = 4;
+            },11000)
+        };
+
+        var yCount = 4;
+        var yelCount = function(){
+            $("y-c").innerHTML = "0" + yCount;
+            yCount--;
+
+            if(yCount < 0){
+                clearInterval(yWatch);
+
+                var pause = setTimeout(function(){
+                    $("r-c").style.display = "block";
+                    $("r-c").innerHTML = 10;
+                    red();
+                },1000)
+            }
+        };
+
+        var yellow = function(){
+            light[1].setAttribute("style","background-color:yellow");
+
+            yWatch = setInterval(yelCount ,1000);
+
+            var pause = setTimeout(function(){
+                light[1].removeAttribute("style");
+                $("y-c").style.display = "none";
+                rCount = 9;
+            },6000)
+        };
+
+        var rCount = 9;
+        var redCount = function(){
+            $("r-c").innerHTML = "0" + rCount;
+            rCount--;
+
+            if(rCount < 0){
+                clearInterval(rWatch);
+
+                var pause = setTimeout(function(){
+                    $("g-c").style.display = "block";
+                    $("g-c").innerHTML = 10;
+                    green();
+                },1000)
+            }
+        };
+
+        var red = function(){
+            light[0].setAttribute("style","background-color:red");
+
+            rWatch = setInterval(redCount ,1000);
+
+            var pause = setTimeout(function(){
+                light[0].removeAttribute("style");
+                $("r-c").style.display = "none";
+                count = 9;
+            },11000)
+        };
+
+        window.onload = red;
+    </script>
+</body>
+</html>
